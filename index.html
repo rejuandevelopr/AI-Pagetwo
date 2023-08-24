@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> AI Investigation </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        h2{
+            font-family: Lato;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+        }
+        #page3{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .batch_search{
+            background-color: rgba(0, 152, 244, 1);
+            width: 100%;
+        }
+        .batch_search div{
+            font-family: Lato;
+            font-size: 24=0px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            padding: 6px 6px 6px 16px;
+            color: white;
+        }
+        .batch_structure .col-sm-6:last-child{
+            border: 2px solid rgba(0, 152, 244, 1);
+            overflow: hidden;
+        } 
+        .batch_structure{
+            border-bottom: 1px solid rgba(128, 223, 184, 1);
+            padding: 10px 22px 10px 10px;
+        }
+        .batch_main{
+            border: 2px solid rgba(0, 152, 244, 1);
+            overflow: hidden;
+        }
+        label{
+            display: block;
+        }
+        /* Text start */
+        .text_input input{
+            width: 100%;
+            border-radius: 4px;
+            border: 2px solid rgba(0, 152, 244, 1);
+            padding: 10px;
+        }
+        /* Time start */
+        .time_section{
+            border: 2px solid rgba(0, 152, 244, 1);
+            text-align: center;
+            background-color: white;
+            border-radius: 4px;
+        }
+        .time_section input{
+            border: 0;
+            margin-right: 10px;
+            background-color: white;
+        }
+        /* video start */
+        .video_select{
+            border: 2px solid rgba(0, 152, 244, 1);
+            border-radius: 4px;
+        }
+        .video_select select{
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            border: 0;
+        }
+
+        /* Human Threshold */
+        .range-container {
+           display: flex;
+           align-items: center;
+        }
+        .range-container input:first-child{
+            width: 54px;
+            border-color: rgba(0, 152, 244, 1);
+            margin-right: 15px;
+            padding: 10px;
+        }
+
+        /* Suspect Start */
+        /* .suspect_main{
+            border: 2px solid rgba(0, 152, 244, 1);
+        } */
+        .suspect_title{
+            background-color: rgba(0, 152, 244, 1);
+            width: 100%;
+        }
+        .suspect_title div{
+            font-family: Lato;
+            font-size: 24=0px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            padding: 6px 6px 6px 16px;
+            color: white;
+        }
+        /* suspect content */
+        .suspect_content{
+            padding: 5px 0px 5px 0px;
+        }
+        .scontent_border{
+            border: 2px solid rgba(0, 152, 244, 1);
+        }
+
+        /* Face Capture section start */
+        .face_title{
+            background-color: rgba(0, 152, 244, 1);
+            width: 100%;
+        }
+        .face_title div{
+            font-family: Lato;
+            font-size: 24=0px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            padding: 6px 6px 6px 16px;
+            color: white;
+        }
+        .face_div .face_image_content{
+            background-color: rgba(217, 217, 217, 1);
+            color: black;
+            position: absolute;
+            bottom: -55px;
+            border: 2px solid rgba(71, 190, 125, 1);
+            width: 86.5%;
+        }
+        .face_div .face_image_content p:first-child{
+            font-family: Lato;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 18px;
+            letter-spacing: 0em;
+            margin-left: 4px;
+        }
+        .face_div .face_image_content p:last-child{
+            font-family: Lato;
+            font-size: 10px;
+            font-weight: 300;
+            line-height: 4px;
+            letter-spacing: 0em;
+            margin-left: 4px;
+        }
+        .face_mark{
+            position: absolute;
+            border: 1px solid rgba(71, 190, 125, 1);
+            top: 0;
+            right: 7%;
+        }
+        .face_mark span:first-child{
+            border-right: 1px solid rgba(71, 190, 125, 1);
+            padding: 2px;
+        }
+        .face_mark span:last-child{
+            padding: 2px;
+        }
+
+        /* fushion start */
+        .fushion_main{
+            margin-top: 70px;
+        }
+        .fushion_title{
+            background-color: rgba(0, 152, 244, 1);
+            width: 100%;
+        }
+        .fushion_title div{
+            font-family: Lato;
+            font-size: 24=0px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            padding: 6px 6px 6px 16px;
+            color: white;
+        }
+        .fushion_pictures div:nth-child(2){
+            position: absolute;
+            right: 30px;
+        }
+
+        .fpicture_content{
+            background-color: rgba(217, 217, 217, 1);
+            position: absolute;
+            bottom: -66px;
+            left: 12px;
+            width: 85%;
+            border: 2px solid rgba(71, 190, 125, 1);
+            
+        }
+        .fpicture_content p:first-child{
+            font-family: Lato;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0em;
+            margin-left: 4px;
+
+        }
+        .fpicture_content p:last-child{
+            font-family: Lato;
+            font-size: 10px;
+            font-weight: 300;
+            line-height: 16px;
+            letter-spacing: 0em;
+            margin-left: 4px;
+        }
+
+        /* vehical start */
+        .vehical{
+            margin-top: 80px;
+        }
+
+
+        /* result start */
+        .result_s{
+            margin-top: 10px;
+            padding: 40px 100px 40px 44%;
+            background-color: rgba(240, 240, 240, 1);
+        }
+        .result_s span:last-child{
+            font-family: Lato;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: center;
+
+        }
+
+        /* toggle button */
+        .toggle-container {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 24px;
+  }
+
+  .toggle-input {
+    display: none;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #eee5e5;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: red;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  .toggle-input:checked + .toggle-slider {
+    background-color: #5a6772;
+  }
+
+  .toggle-input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+  }
+
+
+
+
+        /* Responsive */
+        @media screen and (max-width:1400px) {
+            .fushion_pictures div:nth-child(2) {
+                position: absolute;
+                right: 25px;
+            }
+        }
+        @media screen and (max-width:1200px) {
+            .face_div .face_image_content p:last-child{
+                font-size: 8px;
+            }
+            .face_mark{
+                right: 10%;
+            }
+            .face_div .face_image_content{
+                width: 80.5%;
+            }
+
+            .fushion_pictures div:nth-child(2) {
+                right: 19px;
+            }
+        }
+        @media screen and (max-width:992px) {
+            .face_nine_two{
+                margin-top: 75px;
+            }
+            .face_div .face_image_content{
+                width: 89.5%;
+            }
+            .face_two_nine{
+                width: 84% !important;
+            }
+            .range-container input:first-child{
+                margin-right: 0px;
+                width: 49px;
+            }
+
+            .fushion_pictures{
+                text-align: center;
+            }
+            .fushion_pictures div:nth-child(2) {
+                right: 68px;
+            }
+            .fpicture_content{
+                left: 156px;
+                width: 52.3%;
+            }
+
+
+            .fushionnine_mar{
+                margin-top: 80px;
+            }
+        }
+
+        @media screen and (max-width:768px){
+            .face_div{
+                text-align: center;
+                margin-top: 70px;
+            }
+            .face_mark {
+                right: 12%;
+            }
+            .face_div .face_image_content {
+               width: 79%;
+               left: 10.5%;
+            }
+
+            .fushion_pictures div:nth-child(2) {
+                right: 101px;
+            }
+            .fpicture_content {
+                left: 189px;
+                width: 45.9%;
+            }
+        }
+
+        @media screen and (max-width:576px) {
+            .face_div{
+               margin-top: 80px !important;
+            }
+            .face_div .face_image_content {
+    margin-left: 1% !important;
+    width: 76.9% !important;
+}
+            .face_two_nine {
+               width: 74% !important;
+            }
+            .face_mark {
+              right: 14% !important;
+            }
+
+            .fushion_pictures div:nth-child(2) {
+              right: 21% !important;
+            }
+            .fpicture_content {
+              left: 36% !important;
+              width: 42.9% !important;
+            }
+
+            .batch_structure .col-sm-6:first-child{
+                text-align: center;
+            }
+
+            .batch_structure .col-sm-6:last-child{
+                padding: 30px 20px;
+                margin-left: 6px;
+                margin-top: 5px;
+            }
+            .range-container input:first-child {
+               margin-right: 10px;
+               width: 70px;
+            }
+
+            .topmargin_one{
+               margin-bottom: -66px;
+            }
+
+            .vehi_margin{
+                margin-bottom: -66px;
+            }
+
+            .face_margin_b{
+                margin-bottom: -70px;
+            }
+            
+        }
+
+
+        @media screen and (max-width:450px) {
+            .fushion_pictures div:first-child{
+                margin-right: 18%;
+            }
+            .fpicture_content {
+                left: 23.5% !important;
+                width: 55% !important;
+            }
+        }
+
+        @media screen and (max-width:420px) {
+            
+            .fpicture_content {
+              left: 22.5% !important;
+              width: 56% !important;
+            }
+        }
+        @media screen and (max-width:400px) {
+             .fpicture_content {
+               left: 21.5% !important;
+               width: 57% !important;
+            }
+        }
+
+
+        @media screen and (max-width:390px) {
+            .fpicture_content {
+              left: 21% !important;
+              width: 57.8% !important;
+            }
+            
+        }
+        @media screen and (max-width:375px) {
+            .fpicture_content {
+              left: 20% !important;
+              width: 58.8% !important;
+            }
+            
+        }
+        @media screen and (max-width:360px) {
+            .fpicture_content {
+             left: 19.5% !important;
+             width: 59.5% !important;
+            }
+            
+        }
+        @media screen and (max-width:340px) {
+            .fpicture_content {
+             left: 18% !important;
+             width: 60.9% !important;
+            } 
+            
+        }
+        @media screen and (max-width:320px) {
+            .fpicture_content {
+             left: 16.5% !important;
+             width: 61.9% !important;
+            }
+            
+        }
+        @media screen and (max-width:300px) {
+            .fpicture_content {
+             left: 15.5% !important ;
+             width: 62.9% !important;
+            }
+            
+        }
+
+
+        
+
+    </style>
+</head>
+<body>
+
+    <section id="page3">
+        <div class="container">
+            <div class="row gx-sm-5">
+                
+
+                <div class="col-md-4">
+                    <div class="batch_main">
+                        <div class="batch_search">
+                            <div><h2>Batch Search</h2></div>
+                        </div>
+                        <div class="row batch_structure mt-3">
+                            <div class="col-sm-6">
+                                <img class="img-fluid" src="https://i.ibb.co/gShP3Dz/Rectangle-923-1.png" alt="BatchSearchPic">
+    
+                            </div>
+                            <div class="col-sm-6 position-relative">
+                                <div class="position-absolute top-50 start-50 translate-middle d-flex justify-content-center align-items-center">
+                                    <a href="#"><i class="fa-solid fa-plus" style="color: #ff1d1d;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                         
+                        <div class="p-3">
+                            <span>Search Condition</span>
+
+                            <label class="mt-3" for="name">Text</label>
+                            <div class="text_input">
+                                <input placeholder="Ahmad Nazmi Bin Harun" type="text" id="name">
+                            </div>
+                            
+
+                            <label class="mt-3" for="timelimit">Time Limit</label>
+                            <div class="time_section mt-1">
+                                <input type="date" id="startDateInput">
+                                <input type="time" id="startTimeInput">
+                                <input type="date" id="endDateInput">
+                                <input type="time" id="endTimeInput">
+                            </div>
+
+                            <label class="mt-3" for="videoarea">Video Area</label>
+                            <div class="video_select mt-1">
+                                <select id="eventType">
+                                    <option value="allvideo" selected>All video sources selected</option>
+                                    <option value="video1">Video 1</option>
+                                    <option value="video2">Video 2</option>
+                                    <option value="video3">Video 3</option>
+                                    <option value="video4">Video 4</option>
+                                </select>
+                            </div>
+
+                            <label class="mt-3" for="humanthreshold">Face Threshold</label>
+                            <div class="range-container mt-1">
+                            <input type="text" id="rangeDisplay" value="0%">
+                            <input type="range" id="rangeInput" min="0" max="100" value="0">
+                            </div>
+
+                        </div>
+
+                        <div class="p-3">
+                            <span>Search Condition</span>
+
+                            <label class="mt-3" for="name">Text</label>
+                            <div class="text_input">
+                                <input placeholder="Ahmad Nazmi Bin Harun" type="text" id="name">
+                            </div>
+                            
+
+                            <label class="mt-3" for="timelimit">Time Limit</label>
+                            <div class="time_section mt-1">
+                                <input type="date" id="startDateInput">
+                                <input type="time" id="startTimeInput">
+                                <input type="date" id="endDateInput">
+                                <input type="time" id="endTimeInput">
+                            </div>
+
+                            <label class="mt-3" for="videoarea">Video Area</label>
+                            <div class="video_select mt-1">
+                                <select id="eventType">
+                                    <option value="allvideo" selected>All video sources selected</option>
+                                    <option value="video1">Video 1</option>
+                                    <option value="video2">Video 2</option>
+                                    <option value="video3">Video 3</option>
+                                    <option value="video4">Video 4</option>
+                                </select>
+                            </div>
+
+                            <label class="mt-3" for="humanthreshold">Face Threshold</label>
+                            <div class="range-container mt-1">
+                            <input type="text" id="rangeDisplay2" value="0%">
+                            <input type="range" id="rangeInput2" min="0" max="100" value="0">
+                            </div>
+
+                            <label class="mt-3" for="humanthreshold">Face Threshold</label>
+                            <div class="range-container mt-1">
+                            <input type="text" id="rangeDisplay3" value="0%">
+                            <input type="range" id="rangeInput3" min="0" max="100" value="0">
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-8">
+                    <div class="suspect_main">
+                        <div class="suspect_title d-flex justify-content-between ">
+                            <div><h2>Suspect Identity</h2></div>
+                            <div class="d-flex align-items-center ">
+                                <span style="display: inline-block;">Smarter Than 95%</span>
+                                <div style="display: inline-block;">
+                                    <label class="toggle-container me-4">
+                                        <input type="checkbox" class="toggle-input">
+                                        <span class="toggle-slider"></span>
+                                      </label>
+                                </div>
+                                <span style="display: inline-block;"><a href="#">Expend more</a></span>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row suspect_content mt-3">
+                            <div class="col-lg-4 mt-2">
+                                <div class="row gx-0">
+                                    <div class="col-md-6 text-center">
+                                        <img class="img-fluid" src="https://i.ibb.co/qB1XDZf/Rectangle-923-3.png" alt="Suspectpic">
+                                    </div>
+                                    <div class="col-md-6 scontent_border text-center p-1">
+                                        <p>Ahmad Nazmi Bin H...</p>
+                                        <span>File ID : 306456</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 mt-2">
+                                <div class="row gx-0">
+                                    <div class="col-md-6 text-center">
+                                        <img class="img-fluid" src="https://i.ibb.co/qB1XDZf/Rectangle-923-3.png" alt="Suspectpic">
+                                    </div>
+                                    <div class="col-md-6 scontent_border text-center p-1">
+                                        <p>Ahmad Nazmi Bin H...</p>
+                                        <span>File ID : 306456</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 mt-2">
+                                <div class="row gx-0">
+                                    <div class="col-md-6 text-center">
+                                        <img class="img-fluid" src="https://i.ibb.co/qB1XDZf/Rectangle-923-3.png" alt="Suspectpic">
+                                    </div>
+                                    <div class="col-md-6 scontent_border text-center p-1">
+                                        <p>Ahmad Nazmi Bin H...</p>
+                                        <span>File ID : 306456</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="face_main mt-3">
+                        <div class="face_title topmargin_one d-flex justify-content-between">
+                            <div><h2>Face Capture</h2></div>
+                            <div><a href="#">Expend more</a></div>
+                        </div>
+
+                        <div class="row face_content mt-3">
+                            <div class="col-lg-5">
+                                <div class="row">
+                                    <div class="col-md-6 face_div position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 face_div position-relative face_margin_b">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-7">
+                                <div class="row face_nine_two">
+                                    <div class="col-md-4 face_div face_fivepx position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content face_two_nine">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 face_div position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content face_two_nine">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 face_div position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content face_two_nine">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fushion_main">
+                        <div class="fushion_title d-flex justify-content-between">
+                            <div><h2>Fushion Capture</h2></div>
+                            <div><a href="#">Expend more</a></div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-lg-4 fushion_pictures position-relative ">
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/RcPJst4/Rectangle-923-10.png" alt="FushionPic"></div>
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/NpswL95/Rectangle-958.png" alt="FushionPic"></div>
+                                <div class="fpicture_content" style="display: inline-block;">
+                                    <p>Cam_231</p>
+                                    <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 fushion_pictures fushionnine_mar position-relative ">
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/RcPJst4/Rectangle-923-10.png" alt="FushionPic"></div>
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/NpswL95/Rectangle-958.png" alt="FushionPic"></div>
+                                <div class="fpicture_content" style="display: inline-block;">
+                                    <p>Cam_231</p>
+                                    <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 fushion_pictures fushionnine_mar position-relative ">
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/RcPJst4/Rectangle-923-10.png" alt="FushionPic"></div>
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/NpswL95/Rectangle-958.png" alt="FushionPic"></div>
+                                <div class="fpicture_content" style="display: inline-block;">
+                                    <p>Cam_231</p>
+                                    <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="face_main vehical">
+                        <div class="face_title vehi_margin d-flex justify-content-between">
+                            <div><h2>Vehicle Snapshot</h2></div>
+                            <div><a href="#">Expend more</a></div>
+                        </div>
+
+                        <div class="row face_content mt-3">
+                            <div class="col-lg-5">
+                                <div class="row">
+                                    <div class="col-md-6 face_div  position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 face_div position-relative face_margin_b">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-7">
+                                <div class="row face_nine_two">
+                                    <div class="col-md-4 face_div face_fivepx position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content face_two_nine">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 face_div position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content face_two_nine">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 face_div position-relative">
+                                        <img class="img-fluid" src="https://i.ibb.co/GcBjQM5/Rectangle-923-8.png" alt="FacePicture">
+                                        <div class="face_image_content face_two_nine">
+                                            <p>Cam_231</p>
+                                            <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                        </div>
+                                        <div class="face_mark">
+                                            <span style="display: inline-block;"><i class="fa-solid fa-check" style="color: #47be7d;"></i></span>
+                                            <span style="display: inline-block;">March</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="fushion_main">
+                        <div class="fushion_title d-flex justify-content-between">
+                            <div><h2>Fushion Capture</h2></div>
+                            <div><a href="#">Expend more</a></div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-lg-4 fushion_pictures position-relative ">
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/RcPJst4/Rectangle-923-10.png" alt="FushionPic"></div>
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/NpswL95/Rectangle-958.png" alt="FushionPic"></div>
+                                <div class="fpicture_content" style="display: inline-block;">
+                                    <p>Cam_231</p>
+                                    <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 fushion_pictures fushionnine_mar position-relative ">
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/RcPJst4/Rectangle-923-10.png" alt="FushionPic"></div>
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/NpswL95/Rectangle-958.png" alt="FushionPic"></div>
+                                <div class="fpicture_content" style="display: inline-block;">
+                                    <p>Cam_231</p>
+                                    <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 fushion_pictures fushionnine_mar position-relative ">
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/RcPJst4/Rectangle-923-10.png" alt="FushionPic"></div>
+                                <div style="display: inline-block;"><img class="img-fluid" src="https://i.ibb.co/NpswL95/Rectangle-958.png" alt="FushionPic"></div>
+                                <div class="fpicture_content" style="display: inline-block;">
+                                    <p>Cam_231</p>
+                                    <p>2020-08-09 &nbsp; &nbsp; 12-22-22</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="face_main vehical">
+                        <div class="face_title d-flex justify-content-between">
+                            <div><h2>Vehicle Snapshot</h2></div>
+                            <div><a href="#">Expend more</a></div>
+                        </div>
+                        <div class="result_s">
+                            <span style="display: inline-block; margin-right: 10px;"><i class="fa-solid fa-circle-minus" style="color: #696e77;"></i></span>
+                            <span style="display: inline-block;">No Result</span>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Human Threshold/Range Script -->
+    <script>
+        const rangeInput = document.getElementById('rangeInput');
+  const rangeDisplay = document.getElementById('rangeDisplay');
+
+  // Update range display based on input value
+  rangeInput.addEventListener('input', () => {
+    const value = rangeInput.value;
+    rangeDisplay.value = `${value}%`;
+    rangeDisplay.style.left = `calc(${value}% - ${value * 2}px)`;
+  });
+
+  // Update input value based on display value
+  rangeDisplay.addEventListener('input', () => {
+    const displayValue = parseInt(rangeDisplay.value);
+    if (!isNaN(displayValue)) {
+      rangeInput.value = displayValue;
+      rangeDisplay.style.left = `calc(${displayValue}% - ${displayValue * 2}px)`;
+    }
+  });
+    </script>
+
+    <!-- Human Threshold/Range Script 2 -->
+    <script>
+    const rangeInput2 = document.getElementById('rangeInput2');
+const rangeDisplay2 = document.getElementById('rangeDisplay2');
+
+// Update range display based on input value
+rangeInput2.addEventListener('input', () => {
+const value = rangeInput2.value;
+rangeDisplay2.value = `${value}%`;
+rangeDisplay2.style.left = `calc(${value}% - ${value * 2}px)`;
+});
+
+// Update input value based on display value
+rangeDisplay2.addEventListener('input', () => {
+const displayValue = parseInt(rangeDisplay2.value);
+if (!isNaN(displayValue)) {
+  rangeInput2.value = displayValue;
+  rangeDisplay2.style.left = `calc(${displayValue}% - ${displayValue * 2}px)`;
+}
+});
+    </script>
+
+    <!-- Human Threshold/Range Script3 -->
+    <script>
+        const rangeInput3 = document.getElementById('rangeInput3');
+    const rangeDisplay3 = document.getElementById('rangeDisplay3');
+    
+    // Update range display based on input value
+    rangeInput3.addEventListener('input', () => {
+    const value = rangeInput3.value;
+    rangeDisplay3.value = `${value}%`;
+    rangeDisplay3.style.left = `calc(${value}% - ${value * 2}px)`;
+    });
+    
+    // Update input value based on display value
+    rangeDisplay3.addEventListener('input', () => {
+    const displayValue = parseInt(rangeDisplay3.value);
+    if (!isNaN(displayValue)) {
+      rangeInput3.value = displayValue;
+      rangeDisplay3.style.left = `calc(${displayValue}% - ${displayValue * 2}px)`;
+    }
+    });
+    </script>
+</body>
+</html>
